@@ -1,48 +1,81 @@
 import React from "react";
 import Head from "next/head";
 import { createClient } from "contentful";
-import Post from "../components/post";
 import config from "../config.json";
 
-// Instantiate the app client
+import Layout from '../components/Layout'
+import Container from '../components/Container'
+import CardList from '../components/CardList'
+import Card from '../components/Card'
+import SEO from '../components/SEO'
+
+{/* <SEO
+  title={title}
+  description={
+    metaDescription
+      ? metaDescription.internal.content
+      : body.childMarkdownRemark.excerpt
+  }
+/> */}
+
+
+//Instantiate the app client
 const client = createClient({
   space: config.space,
   accessToken: config.accessToken
 });
 
 // Our Homepage component, will receive props from contentful entries thanks to getInitialProps function below.
-function HomePage(props) {
+function HomePage({ entries }) {
+  //const { humanPageNumber, basePath } = pageContext
+  const isFirstPage = 1
+  let featuredPost
   return (
-    <React.Fragment>
+    <Layout>
       <Head>
-        <title>Welcome to NextJS + Contentful by ScreamZ</title>
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css" />
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css" />
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css" />
       </Head>
-      <div className="container grid-lg mt-2">
-        <div className="columns">
-          {props.allPosts && props.allPosts.map(post => <Post post={post} key={post.fields.title} />)}
-        </div>
-      </div>
-    </React.Fragment>
+      <SEO
+        title='Woo!'
+        description='There are no words to describe.'
+      />
+      <Container>
+        {isFirstPage ? (
+          <CardList>
+            <Card {...entries.items[0].fields} featured contentful_id={entries.items[0].sys.id} />
+            {entries.items && entries.items.slice(1).map(post => (
+              <Card {...post.fields} key={post.sys.id} contentful_id={post.sys.id} />
+            ))}
+          </CardList>
+        ) : (
+            <CardList>
+              {entries.items && entries.items.map(post => <Card {...post.fields} key={post.sys.id} contentful_id={post.sys.id} />)}
+            </CardList>
+          )}
+
+      </Container>
+    </Layout>
   );
 }
 
-// This function will run during build time in case of static export.
-// Or will run each time a new request is made to the browser in SSR.
-// It's used to compute initial props for the component and pre-render.
-HomePage.getInitialProps = async () => {
-  // Get every entries in contentful from type Article, sorted by date.
-  // article is the ID of the content model we created on the dashboard.
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
   const entries = await client.getEntries({
-    content_type: "article",
-    order: "-fields.date"
+    content_type: "post",
+    order: "-fields.publishDate",
+    limit: 1000
   });
 
-  // Inject in props of our screen component
-  return { allPosts: entries.items };
-};
+  // By returning { props: posts }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      entries,
+    },
+  }
+}
 
 // That's the default export (the page)
 export default HomePage;

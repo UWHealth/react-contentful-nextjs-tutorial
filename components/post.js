@@ -9,18 +9,18 @@ function Post(props) {
     <div className="column">
       <div className="card" style={{ height: "100%" }}>
         <div className="card-image">
-          <img src={post.image.fields.file.url} className="img-responsive img-fit-cover" style={{ height: 265 }} />
+          <img src={post.heroImage.fields.file.url} className="img-responsive img-fit-cover" style={{ height: 265 }} />
         </div>
         <div className="card-header">
           <div className="card-title h5">{post.title}</div>
-          <div className="card-subtitle text-gray">{new Date(post.date).toDateString()}</div>
+          <div className="card-subtitle text-gray">{new Date(post.publishDate).toDateString()}</div>
         </div>
         <div className="card-body" dangerouslySetInnerHTML={{ __html: documentToHtmlString(post.body) }}></div>
         <div className="divider"></div>
         <div className="card-footer">
           <div className="tile">
             <div className="tile-content">
-              <p className="tile-title">By {post.author.fields.firstname + " " + post.author.fields.lastname}</p>
+              <p className="tile-title">Tags to come...</p>
             </div>
           </div>
         </div>
