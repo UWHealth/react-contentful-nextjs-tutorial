@@ -6,23 +6,24 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next export"
+    "export": "next export",
+    "serve": "npx serve ./out"
   },
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^13.4.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
-    "contentful": "^7.14.0",
+    "contentful": "^7.14.2",
     "dompurify": "^2.0.8",
     "markdown-to-txt": "^1.0.1",
     "marked": "^0.8.2",
     "next": "9.3.4",
-    "prismjs": "^1.19.0",
+    "prismjs": "^1.20.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "remove-markdown": "^0.3.0"
   },
   "devDependencies": {
-    "contentful-cli": "^1.2.27"
+    "contentful-cli": "^1.3.9"
   }
 }
