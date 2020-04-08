@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { Link } from 'gatsby'
+import Link from 'next/link'
+import theme from '../styles/theme'
 
 const Wrapper = styled.div`
   margin: -2em 0 0 0;
@@ -12,16 +13,16 @@ const Box = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   width: 100%;
-  max-width: ${props => props.theme.sizes.maxWidthCentered};
+  max-width: ${theme.sizes.maxWidthCentered};
   a {
-    background: ${props => props.theme.colors.primary};
+    background: ${theme.colors.primary};
     color: white;
     padding: 1em;
     border-radius: 2px;
     text-decoration: none;
     transition: 0.2s;
     &:hover {
-      background: ${props => props.theme.colors.highlight};
+      background: ${theme.colors.highlight};
     }
   }
 `
@@ -41,12 +42,12 @@ const PostLinks = props => {
     <Wrapper>
       <Box>
         {props.previous && (
-          <PreviousLink to={`${props.basePath}/${props.previous.slug}-${props.previous.contentful_id}/`}>
+          <PreviousLink href="/post/[slug]/[contentful_id]" as={`/post/${props.previous.fields.slug}/${props.previous.sys.id}`} passHref >
             &#8592; Prev
           </PreviousLink>
         )}
         {props.next && (
-          <NextLink to={`${props.basePath}/${props.next.slug}-${props.next.contentful_id}/`}>
+          <NextLink href="/post/[slug]/[contentful_id]" as={`/post/${props.next.fields.slug}/${props.next.sys.id}`} passHref >
             Next &#8594;
           </NextLink>
         )}

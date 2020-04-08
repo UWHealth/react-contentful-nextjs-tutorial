@@ -2,7 +2,11 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import  { createClient } from 'contentful'
 import config from  '../../../config.json'
-
+var marked = require('marked');
+marked.setOptions({
+  smartLists: true,
+  smartypants: true
+});
 
 //Instantiate the app client
 const client = createClient({
@@ -11,31 +15,30 @@ const client = createClient({
 });
 
 import Layout from '../../../components/Layout'
-// import Hero from '../components/Hero'
 import Container from '../../../components/Container'
-import PageBody from '../../../components/PageBody'
-// import TagList from '../components/TagList'
-// import PostLinks from '../components/PostLinks'
+import Hero from '../../../components/Hero'
+import TagList from '../../../components/TagList'
 import PostDetails from '../../../components/PostDetails'
+import PageBody from '../../../components/PageBody'
+import PostLinks from '../../../components/PostLinks'
 // import SEO from '../components/SEO'
 
 
-const PostSingle = ({ }) => {
+const PostSingle = ({ current, previous, next }) => {
   const router = useRouter()
-  const { slug, contentful_id } = router.query
+  const isFallback = router.isFallback
+  const fields = current.fields
 
   return (
     <Layout>
-
+      
+      <Hero title={fields.title} image={fields.heroImage} height={'50vh'} />
       <Container>
-
-        <PostDetails
-          date={slug}
-          timeToRead={contentful_id}
-        />
-        <PageBody body={`${contentful_id} ${slug}`} />
+        {fields.tags && <TagList tags={fields.tags} />}
+        <PostDetails date={fields.publishDate} />
+        <PageBody body={marked(fields.body)} />
       </Container>
-
+      <PostLinks previous={previous} next={next} />
     </Layout>
   )
 }
@@ -54,22 +57,32 @@ export async function getStaticPaths() {
   // Get the paths we want to pre-render based on posts
   // const paths = posts.map(post => `/posts/${post.id}`)
 
-
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.
   return { paths, fallback: false }
 }
-
 // This also gets called at build time
-export async function getStaticProps() {
+export async function getStaticProps({params}) {
 
-  // params contains the post `id`.
-  // If the route is like /posts/1, then params.id is 1
-  //const res = await fetch(`https://.../posts/${params.id}`)
-  //const post = await res.json()
+  const entries = await client.getEntries({
+    content_type: "post",
+    order: "-fields.publishDate",
+    limit: 1000
+  });
+  const { contentful_id } = params
 
-  // Pass post data to the page via props
-  return { props: {  } }
+  // find location of currect selection
+  const current = entries.items.find(current => current.sys.id == contentful_id)
+  let currentIndex = entries.items.indexOf(current)
+  let total = entries.items.length
+
+  const previous = currentIndex <= total - 1 && currentIndex > 0 ? entries.items[currentIndex - 1] : null
+  const next = currentIndex < total -1 && currentIndex >= 0 ? entries.items[currentIndex + 1] : null
+
+  //const post = await client.getEntry(contentful_id)
+  //console.log(`currentIndex:${currentIndex}, total:${total} `);
+
+  return { props: { current, previous, next } }
 }
 
 export default PostSingle
