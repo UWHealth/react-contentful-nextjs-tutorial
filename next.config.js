@@ -1,32 +1,21 @@
-//module.exports = {};
+const path = require('path');
+const Dotenv = require('dotenv-webpack')
 
-// const { createClient } = require('contentful');
-// const config = require('./config.json');
+const next_config = {
+  webpack: config => {
+    config.plugins = config.plugins || [];
 
+    config.plugins = [
+      ...config.plugins,
+      // Read the .env file
+      new Dotenv({
+        path: path.join(__dirname, '.env'),
+        systemvars: true
+      })
+    ];
 
-// //Instantiate the app client
-// const client = createClient({
-//   space: config.space,
-//   accessToken: config.accessToken
-// });
-
-module.exports = {
-  exportTrailingSlash: true,
-  // exportPathMap: async function () {
-  //   // pages we know about beforehand
-  //   const paths = {
-  //     '/': { page: '/' }
-  //   }
-
-  //   const entries = await client.getEntries({
-  //     content_type: "post",
-  //     order: "-fields.publishDate"
-  //   });
- 
-  //   entries.items && entries.items.map(post => {
-  //     paths[`/post/${post.fields.slug}/${post.sys.id}`] = { page: '/post/[slug]/[contentful_id]', query: { contentful_id: post.sys.id, slug: post.fields.slug }}
-  //   })
-
-  //   return paths
-  // }
+    return config;
+  },
 }
+
+module.exports = { ...next_config };

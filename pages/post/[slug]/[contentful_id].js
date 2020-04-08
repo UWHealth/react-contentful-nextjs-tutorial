@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React from 'react'
 import  { createClient } from 'contentful'
-import config from  '../../../config.json'
+
 var marked = require('marked');
 marked.setOptions({
   smartLists: true,
@@ -10,8 +10,8 @@ marked.setOptions({
 
 //Instantiate the app client
 const client = createClient({
-  space: config.space,
-  accessToken: config.accessToken
+  space: process.env.space,
+  accessToken: process.env.accessToken
 });
 
 import Layout from '../../../components/Layout'
@@ -72,12 +72,12 @@ export async function getStaticProps({params}) {
   const { contentful_id } = params
 
   // find location of currect selection
-  const current = entries.items.find(current => current.sys.id == contentful_id)
+  let current = entries.items.find(current => current.sys.id == contentful_id)
   let currentIndex = entries.items.indexOf(current)
-  let total = entries.items.length
+  const total = entries.items.length
 
-  const previous = currentIndex <= total - 1 && currentIndex > 0 ? entries.items[currentIndex - 1] : null
-  const next = currentIndex < total -1 && currentIndex >= 0 ? entries.items[currentIndex + 1] : null
+  let previous = currentIndex <= total - 1 && currentIndex > 0 ? entries.items[currentIndex - 1] : null
+  let next = currentIndex < total -1 && currentIndex >= 0 ? entries.items[currentIndex + 1] : null
 
   //const post = await client.getEntry(contentful_id)
   //console.log(`currentIndex:${currentIndex}, total:${total} `);

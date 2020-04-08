@@ -1,7 +1,6 @@
 import React from "react";
 import Head from "next/head";
 import { createClient } from "contentful";
-import config from "../config.json";
 
 import Layout from '../components/Layout'
 import Container from '../components/Container'
@@ -21,8 +20,8 @@ import SEO from '../components/SEO'
 
 //Instantiate the app client
 const client = createClient({
-  space: config.space,
-  accessToken: config.accessToken
+  space: process.env.space,
+  accessToken: process.env.accessToken
 });
 
 // Our Homepage component, will receive props from contentful entries thanks to getInitialProps function below.
