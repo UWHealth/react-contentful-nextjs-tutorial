@@ -1,4 +1,4 @@
-const path = require('path');
+//const path = require('path');
 const Dotenv = require('dotenv-webpack')
 
 const next_config = {
@@ -9,7 +9,7 @@ const next_config = {
       ...config.plugins,
       // Read the .env file
       new Dotenv({
-        path: path.join(__dirname, '.env'),
+       // path: path.join(__dirname, '.env'),
         systemvars: true
       })
     ];
