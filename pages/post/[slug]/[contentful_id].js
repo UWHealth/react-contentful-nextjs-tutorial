@@ -52,10 +52,10 @@ export async function getStaticPaths() {
     limit: 1000
   });
 
-  const paths = entries.items.map(post => `/post/${post.fields.slug}/${post.sys.id}`)
-
   // Get the paths we want to pre-render based on posts
-  // const paths = posts.map(post => `/posts/${post.id}`)
+  //const paths = entries.items.map(post => `/post/${post.fields.slug}/${post.sys.id}`)
+  const paths = entries.items.map(post => ({ params: { slug: post.fields.slug, contentful_id: post.sys.id }}))
+
 
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.
@@ -64,20 +64,22 @@ export async function getStaticPaths() {
 // This also gets called at build time
 export async function getStaticProps({params}) {
 
-  const entries = await client.getEntries({
-    content_type: "post",
-    order: "-fields.publishDate",
-    limit: 1000
-  });
+  // const entries = await client.getEntries({
+  //   content_type: "post",
+  //   order: "-fields.publishDate",
+  //   limit: 1000
+  // });
   const { contentful_id } = params
 
-  // find location of currect selection
-  let current = entries.items.find(current => current.sys.id == contentful_id)
-  let currentIndex = entries.items.indexOf(current)
-  const total = entries.items.length
+  const current = await client.getEntry(contentful_id)
 
-  let previous = currentIndex <= total - 1 && currentIndex > 0 ? entries.items[currentIndex - 1] : null
-  let next = currentIndex < total -1 && currentIndex >= 0 ? entries.items[currentIndex + 1] : null
+  // find location of currect selection
+  // let current = entries.items.find(current => current.sys.id == contentful_id)
+  // let currentIndex = entries.items.indexOf(current)
+  // const total = entries.items.length
+
+  let previous = null //currentIndex <= total - 1 && currentIndex > 0 ? entries.items[currentIndex - 1] : null
+  let next = null //currentIndex < total -1 && currentIndex >= 0 ? entries.items[currentIndex + 1] : null
 
   //const post = await client.getEntry(contentful_id)
   //console.log(`currentIndex:${currentIndex}, total:${total} `);

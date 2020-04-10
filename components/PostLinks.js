@@ -43,12 +43,12 @@ const PostLinks = props => {
       <Box>
         {props.previous && (
           <PreviousLink href="/post/[slug]/[contentful_id]" as={`/post/${props.previous.fields.slug}/${props.previous.sys.id}`} passHref >
-            &#8592; Prev
+            <a>&#8592; Prev</a>
           </PreviousLink>
         )}
         {props.next && (
           <NextLink href="/post/[slug]/[contentful_id]" as={`/post/${props.next.fields.slug}/${props.next.sys.id}`} passHref >
-            Next &#8594;
+            <a>Next &#8594;</a>
           </NextLink>
         )}
       </Box>
