@@ -9,7 +9,8 @@ marked.setOptions({
 });
 const client = createClient({
   space: process.env.space,
-  accessToken: process.env.accessToken
+  accessToken: process.env.accessToken,
+  host: process.env.contentfulHost || 'https://cdn.contentful.com'
 });
 
 import Layout from '../../../components/Layout'

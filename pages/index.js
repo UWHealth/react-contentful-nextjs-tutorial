@@ -22,7 +22,8 @@ import { createClient } from "contentful"
 //Instantiate the app client
 const client = createClient({
   space: process.env.space,
-  accessToken: process.env.accessToken
+  accessToken: process.env.accessToken,
+  host: process.env.contentfulHost || 'https://cdn.contentful.com'
 });
 
 // Our Homepage component, will receive props from contentful entries thanks to getInitialProps function below.
