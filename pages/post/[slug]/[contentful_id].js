@@ -7,10 +7,11 @@ marked.setOptions({
   smartLists: true,
   smartypants: true
 });
+
 const client = createClient({
   space: process.env.space,
   accessToken: process.env.accessToken,
-  host: process.env.contentfulHost || 'https://cdn.contentful.com'
+  host: process.env.contentfulHost
 });
 
 import Layout from '../../../components/Layout'

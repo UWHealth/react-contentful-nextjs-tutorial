@@ -7,9 +7,9 @@
 #   command = "npm run deploy"
 #   publish = "out"
 
-[dev]
-  functions = "functions"
-  publish = "out"
+# [dev]
+#   functions = "functions"
+#   publish = "out"
 
 
 # use `npm run serve` to serve up static only
@@ -24,7 +24,7 @@
 #   publish   = "public"
 
 # [dev]
-#   command   = "npx serve public -p 3000"
+#   command   = "npx serve ./public -p 3000"
 #   functions = "functions"
 #   publish = "public"
 
