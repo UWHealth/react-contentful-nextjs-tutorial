@@ -1,17 +1,28 @@
-import App from 'next/app';
-import React from 'react';
-import Router from 'next/router';
-import Head from "next/head";
-import Footer from '../components/Footer'
+import App from 'next/app'
+import React from 'react'
+import Head from 'next/head'
 
-export default function MyApp({ Component, pageProps }) {
+// export default function MyApp({ Component, pageProps }) {
+//     return (
+//       <React.Fragment>
+//         <Head />
+//         <Component {...pageProps} />
+//         {/* <Footer /> */}
+//       </React.Fragment>
+//     )
+// }
+
+class MyApp extends App {
+  render() {
+    const { Component, pageProps } = this.props
     return (
-      <React.Fragment>
+      <>
         <Head />
         <Component {...pageProps} />
         {/* <Footer /> */}
-      </React.Fragment>
-    );
+      </>
+    )
+  }
 }
 
-
+export default MyApp

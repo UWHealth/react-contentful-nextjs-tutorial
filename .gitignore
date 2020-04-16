@@ -30,3 +30,8 @@ config.json
 /_tmp
 # Local Netlify folder
 .netlify
+
+#serverless Netlify
+functions/nextRouter
+public/_next
+public/_redirects

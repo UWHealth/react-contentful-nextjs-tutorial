@@ -7,8 +7,6 @@ marked.setOptions({
   smartLists: true,
   smartypants: true
 });
-
-//Instantiate the app client
 const client = createClient({
   space: process.env.space,
   accessToken: process.env.accessToken
@@ -45,13 +43,14 @@ const PostSingle = ({ current, previous, next }) => {
 
 // This function gets called at build time
 export async function getStaticPaths() {
-
+  console.time('client.getEntries: post')
+  
   const entries = await client.getEntries({
     content_type: "post",
     order: "-fields.publishDate",
     limit: 1000
   });
-
+  console.timeEnd('client.getEntries: post')
   // Get the paths we want to pre-render based on posts
   //const paths = entries.items.map(post => `/post/${post.fields.slug}/${post.sys.id}`)
   const paths = entries.items.map(post => ({ params: { slug: post.fields.slug, contentful_id: post.sys.id }}))
@@ -69,10 +68,11 @@ export async function getStaticProps({params}) {
   //   order: "-fields.publishDate",
   //   limit: 1000
   // });
+
   const { contentful_id } = params
-
+  //console.time(`getEntry: ${contentful_id}`)
   const current = await client.getEntry(contentful_id)
-
+  //console.timeEnd(`getEntry: ${contentful_id}`)
   // find location of currect selection
   // let current = entries.items.find(current => current.sys.id == contentful_id)
   // let currentIndex = entries.items.indexOf(current)

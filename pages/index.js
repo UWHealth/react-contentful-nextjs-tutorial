@@ -1,22 +1,23 @@
 import React from "react";
-import Head from "next/head";
-import { createClient } from "contentful";
+import Head from "next/head"
 
 import Layout from '../components/Layout'
 import Container from '../components/Container'
 import CardList from '../components/CardList'
 import Card from '../components/Card'
 import SEO from '../components/SEO'
+import { createClient } from "contentful"
 
 {/* <SEO
   title={title}
   description={
     metaDescription
-      ? metaDescription.internal.content
-      : body.childMarkdownRemark.excerpt
+    ? metaDescription.internal.content
+    : body.childMarkdownRemark.excerpt
   }
 /> */}
 
+//const contentfulService = new ContentfulService();
 
 //Instantiate the app client
 const client = createClient({
@@ -61,12 +62,16 @@ function HomePage({ entries }) {
 
 export async function getStaticProps() {
   // Call an external API endpoint to get posts.
+  //const word = await contentfulServ.meth()
+  //console.log(word)
+  //console.time(`get index entries`)
+  //const entries = await contentfulService.getAllPosts()
   const entries = await client.getEntries({
     content_type: "post",
     order: "-fields.publishDate",
-    limit: 1000
-  });
-
+    limit: 50
+  })
+  //console.timeEnd(`get index entries`)
   // By returning { props: posts }, the Blog component
   // will receive `posts` as a prop at build time
   return {
