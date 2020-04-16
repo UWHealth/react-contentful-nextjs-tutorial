@@ -3,9 +3,9 @@
 #SSG
 #serverful or SSG next.js settings SSG is just exported
 # public folder needs to be empty of public/_next/ and public/_redirects file
-[build]
-  command = "npm run deploy"
-  publish = "out"
+# [build]
+#   command = "npm run deploy"
+#   publish = "out"
 
 [dev]
   functions = "functions"
