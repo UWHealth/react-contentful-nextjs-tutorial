@@ -1,34 +1,21 @@
-# Testing Netlify Builds
+[build]
+  command   = "npm run deploy"
+  functions = "functions"
+  publish   = "out"
 
-#SSG
-#serverful or SSG next.js settings SSG is just exported
-# public folder needs to be empty of public/_next/ and public/_redirects file
-# [build]
-#   command = "npm run deploy"
-#   publish = "out"
-
-# [dev]
-#   functions = "functions"
-#   publish = "out"
-
-
-# use `npm run serve` to serve up static only
-
-
-# [build_serverless]
-# #serverless next.js settings
-
-# [build]
-#   command   = "npm run serverless"
-#   functions = "functions"
-#   publish   = "public"
-
-# [dev]
-#   command   = "npx serve ./public -p 3000"
-#   functions = "functions"
-#   publish = "public"
-
-
+[dev]
+  functions = "functions"
+  publish = "out"
+  framework= "#static"
+  # command   = "npx serve ./public -p 3000"
+  # command = "npm run dev"
+  # command = "echo no dev command executing..."
   
 [[plugins]]
 package = "netlify-plugin-cache-nextjs"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-From = "netlify.toml"
+  

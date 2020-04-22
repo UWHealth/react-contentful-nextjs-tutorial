@@ -11,6 +11,7 @@
 # next.js
 /.next/
 /out/
+/.out/
 
 # production
 /build
@@ -35,3 +36,4 @@ config.json
 functions/nextRouter
 public/_next
 public/_redirects
+public/out

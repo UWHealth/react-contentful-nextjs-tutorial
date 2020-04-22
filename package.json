@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "deploy": "npm run build && rm -f ./public/_redirects && rm -rf ./public/_next/ &&  npm run export",
+    "deploy": "npm run build && rm -f ./public/_redirects && rm -rf ./public/_next/ &&  npm run export && npm run netlify && cp ./public/_redirects ./out/_redirects",
     "serve": "npx serve ./out -p 3000",
-    "serverless": "next build && npx next-on-netlify"
+    "netlify": "npx next-on-netlify",
+    "serverless": "npm run build && npm run netlify"
   },
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^13.4.0",

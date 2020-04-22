@@ -29,6 +29,7 @@ module.exports = (phase, { defaultConfig }) => {
     generateBuildId: async () => {
       return process.env.nextBuildId
     },
+    exportTrailingSlash: false,
     target: 'serverless'
   }
 }
