@@ -1,4 +1,5 @@
 //const Dotenv = require('dotenv-webpack')
+process.env.UV_THREADPOOL_SIZE = 8;
 const {
   PHASE_DEVELOPMENT_SERVER,
   PHASE_PRODUCTION_BUILD,
